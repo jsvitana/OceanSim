@@ -10,7 +10,7 @@ public class OceanSim
 {
     public static Random r1;
     
-    public static final char EMPTYSPACE = '^';
+    public static final char EMPTYSPACE = '^';////////////
     public static int rows = 0;
     public static int cols = 0;
     public static int amountOfFreeSpace = 0;  //The amount of free spaces the board has
