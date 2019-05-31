@@ -10,7 +10,7 @@ public class OceanSim
 {
     public static Random r1;
     
-    public static final char EMPTYSPACE = '^';////////////
+    public static final char EMPTYSPACE = '^';
     public static int rows = 0;
     public static int cols = 0;
     public static int amountOfFreeSpace = 0;  //The amount of free spaces the board has
@@ -683,14 +683,15 @@ public class OceanSim
     public static boolean sharkInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
     {
         boolean tookSpot = false;   //if something dies 
-        int intChance = 0;       //Chance for interaction
+        boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
+        int intChance = 0;       //Chance for interaction       
         
         intChance = r1.nextInt(99);
         
         if(obj == 'F')
         {
             System.out.println("sharks tries to eat");
-            if(intChance<100)
+            if(intChance<50)   //50% chance
             {
                 System.out.println("Shark ate fish");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
@@ -702,10 +703,15 @@ public class OceanSim
         }
         else if(obj == 'I')
         {
-            //WHAT IF ICEBURG HITS SHARK 
-            //SHARK MUST LOOK FOR ANOTHER SPOT AND SUCCEED OR IT WILL DIE
-            //MAKE MOVING METHODS WORK WITH THIS HOPEFULLY
+            intMove = moveObject(ocean, intRow, intCol);
+            if(!intMove)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                System.out.println("crushed");
+            }
+            tookSpot = true;
         }
+        //CONTINUE WOKRING TO GET REST OF SHARK METHOD DONE THEN RESET RANDOMS BACK TO NORMAL
         return tookSpot;
     }
     
@@ -714,7 +720,7 @@ public class OceanSim
         //LET OFF HERE FIGURE OUT INTERACTIONS, MAKE 10 METHODS FOR EACH OBJECT
         //UPDATE ALL THE MOVES ONCE YOU KNOW UP WORKS
         char obj = ocean[currentR][currentC];  //The object that is making the move
-        char targetObj = ocean[objR][objC];
+        char targetObj = ocean[objR][objC];  
         boolean canMove = false;
         
         if(targetObj == 'F')
@@ -735,7 +741,7 @@ public class OceanSim
         }
         else if(targetObj == 'R')
         {
-            
+            System.out.println("Rock");
         }
         else if(targetObj == 'J')
         {
@@ -767,7 +773,7 @@ public class OceanSim
     public static boolean moveUp(char[][] ocean, int r, int c)
     {
         boolean canMove = false;
-        //System.out.println("Moved up");
+        System.out.println("Moved up" + ocean[r][c]);
         if(r-1>=0)
         {
             if(ocean[r-1][c] == EMPTYSPACE)
@@ -785,8 +791,9 @@ public class OceanSim
         }
         
         //If something moved to that spot it will mark it done
+        System.out.println(canMove + "" + ocean[r][c]);
         if(canMove)
-        {
+        {           
             ocean[r-1][c] = ocean[r][c];
             ocean[r][c] = EMPTYSPACE;
             flags[r-1][c] = true;   //sets this flag to true so it cannot be repeated
@@ -798,7 +805,7 @@ public class OceanSim
     {
         boolean canMove = false;
         
-        //System.out.println("Moved Right");
+        System.out.println("Moved Right");
         if(c+1 < cols)
         {
             if(ocean[r][c+1] == EMPTYSPACE)
@@ -825,7 +832,7 @@ public class OceanSim
     {
         boolean canMove = false;
         
-        //System.out.println("Moved down");
+        System.out.println("Moved down");
         if(r+1 < rows)
         {
             if(ocean[r+1][c] == EMPTYSPACE)
@@ -852,7 +859,7 @@ public class OceanSim
     {
         boolean canMove = false;
         
-        //System.out.println("Moved Left");
+        System.out.println("Moved Left");
         if(c-1 >=0)
         {
             if(ocean[r][c-1] == EMPTYSPACE)
@@ -875,7 +882,7 @@ public class OceanSim
         return canMove;
     }
     
-    public static void moveObject(char[][] ocean, int r, int c)
+    public static boolean moveObject(char[][] ocean, int r, int c)
     {
         int moveSpot = 0;   //Number 0-3 which will determine which spot it will move around it
         boolean canMove = false;   //find out if object can move or not  //possibly use later to log info about ocean if user chooses, but no use as of yet
@@ -963,6 +970,7 @@ public class OceanSim
         {
             System.out.println("Error: moveObject");
         }
+        return canMove;
     }
     
     public static void moveChance(char[][] ocean, char obj, int r, int c)
@@ -989,7 +997,7 @@ public class OceanSim
         }
         else if(obj == 'I')
         {
-            if(chance < 5)   //5% chance
+            if(chance < 500)   //5% chance     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             {
                 willMove = true;
             }
