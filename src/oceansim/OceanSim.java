@@ -104,7 +104,6 @@ public class OceanSim
                 ocean[i][j] = EMPTYSPACE;
             }
         }
-        amountOfFreeSpace = rows*cols;     //calculates amount of free space for later methods
         //sets 10% of grid to a random location         
         /*for(int j = 0;j<count;j++) 
         {
@@ -144,6 +143,22 @@ public class OceanSim
             objectChoice = Character.toUpperCase(objectChoice);  //converts to uppercase
         }
         return objectChoice;
+    }
+    
+    public static void findSpace(char[][] ocean)
+    {
+        amountOfFreeSpace = 0;
+        
+        for(int i = 0;i<rows;i++)
+        {
+            for(int j = 0;j<cols;j++)
+            {
+                if(ocean[i][j] == EMPTYSPACE)
+                {
+                    amountOfFreeSpace++;
+                }
+            }
+        }
     }
     
     ///////////////////////////////////////-- START OF ADDING OBJECT METHODS --/////////////////////////////////////////////////////////////////////////
@@ -214,7 +229,6 @@ public class OceanSim
             //applies coordinates        
             ocean[rowPlace][colPlace] = objectChoice;
             printOcean(ocean);
-            amountOfFreeSpace--;
         }
     }
     
@@ -239,7 +253,6 @@ public class OceanSim
                 colPlace = r1.nextInt(cols);
             }
             ocean[rowPlace][colPlace] = objectChoice;           
-            amountOfFreeSpace--;
         }
         printOcean(ocean);
     }
@@ -408,7 +421,6 @@ public class OceanSim
         if(ocean[remRow][remCol] != EMPTYSPACE)
         {
             ocean[remRow][remCol] = EMPTYSPACE;
-            amountOfFreeSpace++;
         }
         else
         {
@@ -433,7 +445,6 @@ public class OceanSim
                 if(ocean[i][j] == objectChoice)
                 {
                     ocean[i][j] = EMPTYSPACE;
-                    amountOfFreeSpace++;
                     amountFound++;
                 }
             }
@@ -516,8 +527,6 @@ public class OceanSim
             sb.append(""+rows);
             sb.append(',');
             sb.append(""+cols);
-            sb.append(',');
-            sb.append(""+amountOfFreeSpace);
             sb.append('\n');
             
             //set the actual world in csv
@@ -569,7 +578,6 @@ public class OceanSim
             //Sets the global variables
             rows = Integer.parseInt(arrOfStr[0]);
             cols = Integer.parseInt(arrOfStr[1]);
-            amountOfFreeSpace = Integer.parseInt(arrOfStr[2]);
             
             //sets new ocean up
             ocean = new char[rows][cols];
@@ -605,7 +613,6 @@ public class OceanSim
             if(chance < 50)    //5% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'S')   
@@ -613,7 +620,6 @@ public class OceanSim
             if(chance < 50)    //5% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'I')
@@ -621,7 +627,6 @@ public class OceanSim
             if(chance < 5)   //0.5% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'B')
@@ -629,7 +634,6 @@ public class OceanSim
             if(chance < 5)   //0.5 chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'J')
@@ -637,7 +641,6 @@ public class OceanSim
             if(chance < 50)   //5% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'K')
@@ -645,7 +648,6 @@ public class OceanSim
             if(chance < 1)    //0.1 chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'L')
@@ -653,7 +655,6 @@ public class OceanSim
             if(chance < 100)    //10% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'A')
@@ -661,7 +662,6 @@ public class OceanSim
             if(chance < 50)    //5% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'O')
@@ -669,7 +669,6 @@ public class OceanSim
             if(chance < 1)    //0.1% chance
             {
                 obj = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else
@@ -708,7 +707,6 @@ public class OceanSim
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
                 System.out.println("crushed");
-                amountOfFreeSpace++;
             }
             tookSpot = true;
         }
@@ -719,7 +717,6 @@ public class OceanSim
                 System.out.println("fish Caught!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'J')
@@ -729,13 +726,11 @@ public class OceanSim
                 System.out.println("Jelly ate fish!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
             if(intChance<25)
             {
                 System.out.println("fish ate jelly");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'K')
@@ -745,7 +740,6 @@ public class OceanSim
                 System.out.println("fish ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'L')
@@ -755,13 +749,11 @@ public class OceanSim
                 System.out.println("fish eaten!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
             if(intChance<50)
             {
                 System.out.println("Lobster eaten!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'A')
@@ -771,7 +763,6 @@ public class OceanSim
                 System.out.println("fish eaten!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
         }
         else
@@ -795,7 +786,6 @@ public class OceanSim
             {
                 System.out.println("Shark ate fish");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if(obj == 'S')
@@ -809,7 +799,6 @@ public class OceanSim
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
                 System.out.println("crushed");
-                amountOfFreeSpace++;
             }
             tookSpot = true;
         }
@@ -820,13 +809,11 @@ public class OceanSim
                 System.out.println("Shark Caught!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
             if(intChance<5)
             {
                 System.out.println("Boat flipped!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'J')
@@ -835,7 +822,6 @@ public class OceanSim
             {
                 System.out.println("Jelly ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'K')
@@ -845,7 +831,6 @@ public class OceanSim
                 System.out.println("shark ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'L')
@@ -854,7 +839,6 @@ public class OceanSim
             {
                 System.out.println("Lob ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else if (obj == 'A')
@@ -863,7 +847,6 @@ public class OceanSim
             {
                 System.out.println("bird ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else
@@ -887,7 +870,6 @@ public class OceanSim
                 System.out.println("iceburg breaks on iceburg");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
-                amountOfFreeSpace++;
             }
             else if(intChance < 25)
             {
@@ -900,7 +882,6 @@ public class OceanSim
             {
                 System.out.println("boat sinks on iceburg");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-                amountOfFreeSpace++;
             }
         }
         else
@@ -919,7 +900,7 @@ public class OceanSim
         char targetObj = ocean[objR][objC];  
         boolean canMove = false;
         
-        if(targetObj == 'F')
+        if(targetObj == 'F')     //target Object is the object that does not move, but something moves onto it
         {
             canMove = fishInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
@@ -933,31 +914,33 @@ public class OceanSim
         }
         else if(targetObj == 'B')
         {
-            //MAKE A METHOD TO CHECK FOR FREE SPACE SO YOU DONT HAVE TO KEEP ADDING SPACE EVERYTIME SOMETHING DIES....THEN DO THIS METHOD FOR BOAT
+            //boatInteraction(ocean, obj, currentR, currentC, objR, objC);
+            //DO THIS METHOD FOR BOAT!!!!
         }
         else if(targetObj == 'R')
         {
+            //rockInteraction(ocean, obj, currentR, currentC, objR, objC);
             System.out.println("Rock");
         }
         else if(targetObj == 'J')
         {
-            
+            //jellyInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'K')
         {
-            
+            //krackenInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'L')
         {
-            
+            //lobsterInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'A')
         {
-            
+            //birdInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'O')
         {
-            
+            //oilrigInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else
         {
@@ -1396,6 +1379,8 @@ public class OceanSim
         //Switch board to run main program
         while(!endFlag)
         {
+            findSpace(ocean);
+            
             System.out.println("What would you like to do with your world?\n"
                               +"[1] Advance Time\n"
                               +"[2] Add an Object\n"
