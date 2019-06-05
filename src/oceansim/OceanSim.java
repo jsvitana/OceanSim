@@ -892,6 +892,91 @@ public class OceanSim
         return tookSpot;
     }
     
+    public static boolean boatInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
+    {
+        boolean tookSpot = false;    //ALL INTERACTIONS NEED DONE FOR BOAT, THESE ARE ALL FOR SHARK AS OF RIGHT NOW 6/4/2019
+        
+        boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
+        int intChance = 0;       //Chance for interaction       
+        
+        intChance = r1.nextInt(99);
+        
+        if(obj == 'F')
+        {
+            if(intChance<50)   //50% chance
+            {
+                System.out.println("Shark ate fish");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if(obj == 'S')
+        {
+            //breed here
+        }
+        else if(obj == 'I')
+        {
+            intMove = iceburgMove(ocean, intRow, intCol);
+            if(!intMove)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                System.out.println("crushed");
+            }
+            tookSpot = true;
+        }
+        else if (obj == 'B')
+        {
+            if((intChance>89) &&(intChance <=99))
+            {
+                System.out.println("Shark Caught!");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+            if(intChance<5)
+            {
+                System.out.println("Boat flipped!");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'J')
+        {
+            if(intChance <30)
+            {
+                System.out.println("Jelly ate");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'K')
+        {
+            if(intChance <60)
+            {
+                System.out.println("shark ate");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+        }
+        else if (obj == 'L')
+        {
+            if(intChance <10)
+            {
+                System.out.println("Lob ate");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'A')
+        {
+            if(intChance <20)
+            {
+                System.out.println("bird ate");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else
+        {
+            System.out.println("error in Shark Interaction");
+        }
+        return tookSpot;
+    }
+    
     public static boolean interact(char[][] ocean, int currentR, int currentC, int objR, int objC)   //Current object positions and what it is running onto
     {
         //LET OFF HERE FIGURE OUT INTERACTIONS, MAKE 10 METHODS FOR EACH OBJECT
@@ -914,8 +999,7 @@ public class OceanSim
         }
         else if(targetObj == 'B')
         {
-            //boatInteraction(ocean, obj, currentR, currentC, objR, objC);
-            //DO THIS METHOD FOR BOAT!!!!
+            boatInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'R')
         {
