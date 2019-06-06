@@ -93,7 +93,8 @@ public class OceanSim
     
     public static void initOcean(char[][] ocean)
     {
-        int count = (rows*cols)/10;   //error check down below for if the division would equal 0!!!!
+        int count = (rows*cols);   //error check down below for if the division would equal 0!!!!
+        int randoNum = 0;          //Used to initilize random world
         int x = 0;
         int y = 0;
         //Initilizes grid with ^
@@ -104,18 +105,59 @@ public class OceanSim
                 ocean[i][j] = EMPTYSPACE;
             }
         }
+        
         //sets 10% of grid to a random location         
-        /*for(int j = 0;j<count;j++) 
+        for(int j = 0;j<count;j++) 
         {
-            x = r1.nextInt(r);
-            y = r1.nextInt(r);
+            randoNum = r1.nextInt(10);
+            x = r1.nextInt(rows);
+            y = r1.nextInt(cols);
             while(ocean[x][y] != EMPTYSPACE)
             {
-                x = r1.nextInt(r);
-                y = r1.nextInt(r);
+                x = r1.nextInt(rows);
+                y = r1.nextInt(cols);
             }
-            ocean[x][y] = 'G';
-        }*/
+            if(randoNum == 0)
+            {
+                ocean[x][y] = 'F';
+            }
+            else if(randoNum == 1)
+            {
+                ocean[x][y] = 'S';
+            }
+            else if(randoNum == 2)
+            {
+                ocean[x][y] = 'I';
+            }
+            else if(randoNum == 3)
+            {
+                ocean[x][y] = 'B';
+            }
+            else if(randoNum == 4)
+            {
+                ocean[x][y] = 'R';
+            }
+            else if(randoNum == 5)
+            {
+                ocean[x][y] = 'J';
+            }
+            else if(randoNum == 6)
+            {
+                ocean[x][y] = 'K';
+            }
+            else if (randoNum == 7)
+            {
+                ocean[x][y] = 'L';
+            }
+            else if(randoNum == 8)
+            {
+                ocean[x][y] = 'A';
+            }
+            else
+            {
+                ocean[x][y] = 'O';
+            }
+        }
     }
     
     public static char getObject()
@@ -695,7 +737,7 @@ public class OceanSim
         {
             if(intChance < 75)
             {
-                System.out.println("fish ate");
+                //System.out.println("fish ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -706,7 +748,7 @@ public class OceanSim
             if(!intMove)
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
-                System.out.println("crushed");
+                //System.out.println("crushed");
             }
             tookSpot = true;
         }
@@ -714,7 +756,7 @@ public class OceanSim
         {
             if(intChance < 60)
             {
-                System.out.println("fish Caught!");
+                //System.out.println("fish Caught!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -723,13 +765,13 @@ public class OceanSim
         {
             if(intChance>69)
             {
-                System.out.println("Jelly ate fish!");
+                //System.out.println("Jelly ate fish!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
             if(intChance<25)
             {
-                System.out.println("fish ate jelly");
+                //System.out.println("fish ate jelly");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -737,7 +779,7 @@ public class OceanSim
         {
             if(intChance < 90)
             {
-                System.out.println("fish ate");
+                //System.out.println("fish ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -746,13 +788,13 @@ public class OceanSim
         {
             if(intChance>74)
             {
-                System.out.println("fish eaten!");
+                //System.out.println("fish eaten!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
             if(intChance<50)
             {
-                System.out.println("Lobster eaten!");
+                //System.out.println("Lobster eaten!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -760,14 +802,14 @@ public class OceanSim
         {
             if(intChance <50)
             {
-                System.out.println("fish eaten!");
+                //System.out.println("fish eaten!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
         }
         else
         {
-            System.out.println("error in Shark Interaction");
+            System.out.println("error in fish Interaction");
         }
         return tookSpot;
     }
@@ -784,7 +826,7 @@ public class OceanSim
         {
             if(intChance<50)   //50% chance
             {
-                System.out.println("Shark ate fish");
+                //System.out.println("Shark ate fish");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -798,7 +840,7 @@ public class OceanSim
             if(!intMove)
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
-                System.out.println("crushed");
+                //System.out.println("crushed");
             }
             tookSpot = true;
         }
@@ -806,13 +848,13 @@ public class OceanSim
         {
             if(intChance>89)
             {
-                System.out.println("Shark Caught!");
+                //System.out.println("Shark Caught!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
             if(intChance<5)
             {
-                System.out.println("Boat flipped!");
+                //System.out.println("Boat flipped!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -820,7 +862,7 @@ public class OceanSim
         {
             if(intChance <30)
             {
-                System.out.println("Jelly ate");
+                //System.out.println("Jelly ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -828,7 +870,7 @@ public class OceanSim
         {
             if(intChance <60)
             {
-                System.out.println("shark ate");
+                //System.out.println("shark ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -837,7 +879,7 @@ public class OceanSim
         {
             if(intChance <10)
             {
-                System.out.println("Lob ate");
+                //System.out.println("Lob ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -845,7 +887,7 @@ public class OceanSim
         {
             if(intChance <20)
             {
-                System.out.println("bird ate");
+                //System.out.println("bird ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -867,7 +909,7 @@ public class OceanSim
         {
             if(intChance > 49)
             {
-                System.out.println("iceburg breaks on iceburg");
+                //System.out.println("iceburg breaks on iceburg");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -880,13 +922,16 @@ public class OceanSim
         {
             if(intChance < 25)
             {
-                System.out.println("boat sinks on iceburg");
+                //System.out.println("boat sinks on iceburg");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
         else
         {
-            System.out.println("Error: iceburg Interactions");
+            if((obj != 'F') && (obj != 'S') && (obj != 'J') && (obj != 'K') && (obj != 'L') && (obj != 'A'))
+            {
+                System.out.println(obj + " tried to move on the the iceburg!!");
+            }
         }
         
         return tookSpot;
@@ -905,7 +950,7 @@ public class OceanSim
         {
             if(intChance<50)   //50% chance
             {
-                System.out.println("Fish Caught");
+                //System.out.println("Fish Caught");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -919,7 +964,7 @@ public class OceanSim
             if(!intMove)
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
-                System.out.println("crushed");
+                //System.out.println("crushed");
             }
             tookSpot = true;
         }
@@ -927,13 +972,13 @@ public class OceanSim
         {
             if(intChance>74)
             {
-                System.out.println("boat sank!");
+                //System.out.println("boat sank!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
             if(intChance<25)
             {
-                System.out.println("both boats sank!");
+                //System.out.println("both boats sank!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
                 ocean[intRow][intCol] = EMPTYSPACE;
             }
@@ -942,7 +987,7 @@ public class OceanSim
         {
             if(intChance <10)
             {
-                System.out.println("Jelly caught");
+                //System.out.println("Jelly caught");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -950,7 +995,7 @@ public class OceanSim
         {
             if(intChance <98)
             {
-                System.out.println("kraken flip boat");
+                //System.out.println("kraken flip boat");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -959,7 +1004,7 @@ public class OceanSim
         {
             if(intChance <15)
             {
-                System.out.println("Lob caught");
+                //System.out.println("Lob caught");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
@@ -967,13 +1012,13 @@ public class OceanSim
         {
             if(intChance <5)
             {
-                System.out.println("bird shot");
+                //System.out.println("bird shot");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
         else
         {
-            System.out.println("error in Shark Interaction");
+            System.out.println("error in boat Interaction");
         }
         return tookSpot;
     }
@@ -991,7 +1036,7 @@ public class OceanSim
         {
             if(intChance>89)
             {
-                System.out.println("Rock Broke!");
+                //System.out.println("Rock Broke!");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1004,13 +1049,16 @@ public class OceanSim
         {
             if(intChance<25)
             {
-                System.out.println("boat sank!");
+                //System.out.println("boat sank!");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
         else
         {
-            System.out.println("error in Shark Interaction");
+            if((obj != 'F') && (obj != 'S') && (obj != 'J') && (obj != 'K') && (obj != 'L') && (obj != 'A'))
+            {
+                System.out.println(obj + " tried to move on the the rock!!");
+            }
         }
         return tookSpot;
     }
@@ -1028,12 +1076,12 @@ public class OceanSim
         {
             if(intChance>79)
             {
-                System.out.println("Fish eaten");
+                //System.out.println("Fish eaten");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
             if(intChance<25)
             {
-                System.out.println("Jelly Eaten");
+                //System.out.println("Jelly Eaten");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1042,7 +1090,7 @@ public class OceanSim
         {
             if(intChance<75)
             {
-                System.out.println("Shark ate jelly");
+                //System.out.println("Shark ate jelly");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1053,7 +1101,7 @@ public class OceanSim
             if(!intMove)
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
-                System.out.println("crushed");
+                //System.out.println("crushed");
             }
             tookSpot = true;
         }
@@ -1061,7 +1109,7 @@ public class OceanSim
         {
             if(intChance<10)
             {
-                System.out.println("jelly Caught");
+                //System.out.println("jelly Caught");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1074,7 +1122,7 @@ public class OceanSim
         {
             if(intChance <98)
             {
-                System.out.println("kraken Eat jelly");
+                //System.out.println("kraken Eat jelly");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1083,20 +1131,23 @@ public class OceanSim
         {
             if(intChance <15)
             {
-                System.out.println("Lob killed");
+                //System.out.println("Lob killed");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
             }
         }
         else
         {
-            System.out.println("error in Shark Interaction");
+            if(obj != 'A')
+            {
+                System.out.println(obj + " tried to move on the the jelly!!");
+            }
         }
         return tookSpot;
     }
     
-    public static boolean KrakenInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
+    public static boolean krakenInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
     {
-        boolean tookSpot = false;  //LET OFF HERE START DOING KRAKEN INTERACTIONS!!!!!!!!!!!!!!!!!!!!
+        boolean tookSpot = false;
         
         boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
         int intChance = 0;       //Chance for interaction       
@@ -1105,23 +1156,87 @@ public class OceanSim
         
         if(obj == 'F')
         {
-            if(intChance>79)
+            if(intChance<90)
             {
-                System.out.println("Fish eaten");
+                //System.out.println("Fish eaten");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
-            }
-            if(intChance<25)
-            {
-                System.out.println("Jelly Eaten");
-                ocean[intRow][intCol] = EMPTYSPACE;
-                tookSpot = true;
             }
         }
         else if(obj == 'S')
         {
-            if(intChance<75)
+            if(intChance<50)
             {
-                System.out.println("Shark ate jelly");
+                //System.out.println("Shark dies");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if(obj == 'I')
+        {
+            intMove = iceburgMove(ocean, intRow, intCol);
+            if(!intMove)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                //System.out.println("Kraken crushed");
+            }
+            tookSpot = true;
+        }
+        else if (obj == 'B')
+        {
+            if(intChance<80)
+            {
+                //System.out.println("Boat Flipped");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'J')
+        {
+            if(intChance<80)
+            {
+                //System.out.println("Jelly ate");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'K')
+        {
+            //Breed here
+        }
+        else if (obj == 'L')
+        {
+            if(intChance <60)
+            {
+                //System.out.println("Lob killed");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'A')
+        {
+            if(intChance <80)
+            {
+                //System.out.println("bird killed");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else
+        {
+            System.out.println("error in kraken Interaction");
+        }
+        return tookSpot;
+    }
+    
+    public static boolean lobsterInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
+    {
+        boolean tookSpot = false;
+        
+        boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
+        int intChance = 0;       //Chance for interaction       
+        
+        intChance = r1.nextInt(99);
+        
+        if(obj == 'S')
+        {
+            if(intChance<30)
+            {
+                //System.out.println("lob ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
@@ -1132,43 +1247,176 @@ public class OceanSim
             if(!intMove)
             {
                 ocean[intRow][intCol] = EMPTYSPACE;
-                System.out.println("crushed");
+                //System.out.println("crushed");
             }
             tookSpot = true;
         }
         else if (obj == 'B')
         {
-            if(intChance<10)
+            if(intChance<25)
             {
-                System.out.println("jelly Caught");
+                //System.out.println("lob caught");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
         }
-        else if (obj == 'J')
-        {
-            //breed here
-        }
         else if (obj == 'K')
         {
-            if(intChance <98)
+            if(intChance<80)
             {
-                System.out.println("kraken Eat jelly");
+                //System.out.println("lob ate");
                 ocean[intRow][intCol] = EMPTYSPACE;
                 tookSpot = true;
             }
         }
         else if (obj == 'L')
         {
-            if(intChance <15)
+            //breed here
+        }
+        else
+        {
+            if((obj != 'F')&&(obj != 'J') && (obj != 'A'))
             {
-                System.out.println("Lob killed");
+                System.out.println(obj + " tried to move on the the Lobster!!");
+            }
+        }
+        return tookSpot;
+    }
+    
+    public static boolean birdInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
+    {
+        boolean tookSpot = false;
+        
+        boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
+        int intChance = 0;       //Chance for interaction       
+        
+        intChance = r1.nextInt(99);
+        
+        if(obj == 'F')
+        {
+            if(intChance<25)
+            {
+                //System.out.println("lob ate");
                 ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if(obj == 'S')
+        {
+            if(intChance<25)
+            {
+                //System.out.println("lob ate");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+        }
+        else if(obj == 'I')
+        {
+            intMove = iceburgMove(ocean, intRow, intCol);
+            if(!intMove)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                //System.out.println("crushed");
+            }
+            tookSpot = true;
+        }
+        else if (obj == 'B')
+        {
+            if(intChance<5)
+            {
+                //System.out.println("Bird shot!");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+        }
+        else if (obj == 'J')
+        {
+            if(intChance<25)
+            {
+                //System.out.println("jelly ate");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+        }
+        else if (obj == 'K')
+        {
+            if(intChance<80)
+            {
+                //System.out.println("bird ate");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+        }
+        else if (obj == 'A')
+        {
+            //breed here
+        }
+        else
+        {
+            if(obj != 'L')
+            {
+                System.out.println(obj + " tried to move on the the bird!!");
+            }
+        }
+        return tookSpot;
+    }
+    
+    public static boolean oilrigInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
+    {
+        boolean tookSpot = false;
+        
+        boolean intMove = false;    //if interaction object is able to  move, such as when being crushed by iceburg
+        int intChance = 0;       //Chance for interaction       
+        
+        intChance = r1.nextInt(99);
+        
+        if(obj == 'I')
+        {
+            intMove = iceburgMove(ocean, intRow, intCol);
+            if(!intMove)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                //System.out.println("crushed");
+            }
+            tookSpot = true;
+        }
+        else if (obj == 'B')
+        {
+            if(intChance<25)
+            {
+                //System.out.println("boat sank!");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+            else if(intChance>74)
+            {
+                //System.out.println("oil rig blows!");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
+            else if((intChance >49) && (intChance < 75))
+            {
+                //System.out.println("Both blow!");
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+                ocean[intRow][intCol] = EMPTYSPACE;
+            }
+            else
+            {
+                //Nothing happens
+            }
+        }
+        else if (obj == 'K')
+        {
+            if(intChance<98)
+            {
+                //System.out.println("oil Rig Attacked!");
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
             }
         }
         else
         {
-            System.out.println("error in Shark Interaction");
+            if((obj != 'F') && (obj != 'S')&&(obj != 'J')&&(obj != 'L')&&(obj != 'A'))
+            {
+                System.out.println(obj + " tried to move on the the oilrig!!");
+            }
         }
         return tookSpot;
     }
@@ -1207,19 +1455,19 @@ public class OceanSim
         }
         else if(targetObj == 'K')
         {
-            canMove = krackenInteraction(ocean, obj, currentR, currentC, objR, objC);
+            canMove = krakenInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'L')
         {
-            //canMove = lobsterInteraction(ocean, obj, currentR, currentC, objR, objC);
+            canMove = lobsterInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'A')
         {
-            //canMove = birdInteraction(ocean, obj, currentR, currentC, objR, objC);
+            canMove = birdInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else if(targetObj == 'O')
         {
-            //canMove = oilrigInteraction(ocean, obj, currentR, currentC, objR, objC);
+            canMove = oilrigInteraction(ocean, obj, currentR, currentC, objR, objC);
         }
         else
         {
@@ -1264,7 +1512,7 @@ public class OceanSim
     {
         boolean canMove = false;    //if it can move and is not obstructed
         boolean tookSpot = false;
-        System.out.println("Moved up" + ocean[r][c]);
+        //System.out.println("Moved up" + ocean[r][c]);
         if(r-1>=0)
         {
             if(ocean[r-1][c] == EMPTYSPACE)
@@ -1284,7 +1532,7 @@ public class OceanSim
         }
         
         //If something moved to that spot it will mark it done
-        System.out.println(tookSpot + "" + ocean[r][c]);
+        //System.out.println(tookSpot + "" + ocean[r][c]);
         if(tookSpot)
         {           
             ocean[r-1][c] = ocean[r][c];
@@ -1296,82 +1544,103 @@ public class OceanSim
     
     public static boolean moveRight(char[][] ocean, int r, int c)
     {
-        boolean canMove = false;
-        
-        System.out.println("Moved Right");
-        if(c+1 < cols)
+        boolean canMove = false;    //if it can move and is not obstructed
+        boolean tookSpot = false;
+        //System.out.println("Moved Right" + ocean[r][c]);
+        if(c+1<cols)
         {
             if(ocean[r][c+1] == EMPTYSPACE)
-            {
-                ocean[r][c+1] = ocean[r][c];
-                ocean[r][c] = EMPTYSPACE;
+            {                
                 canMove = true;
-                flags[r][c+1] = true;    //sets this flag to true so it cannot be repeated
+                tookSpot = true;
             }
             else
             {
-                //System.out.println("obstuction");
+                tookSpot = interact(ocean,r,c,r,c+1);       //if it can take its spot or not
+                canMove = true;                             //it can move so it will not try another interaction
             }
         }
-        else
+        else  //if it tried to move off edge of ocean
         {
             //System.out.println("tried to move off");
         }
         
+        //If something moved to that spot it will mark it done
+        //System.out.println(tookSpot + "" + ocean[r][c]);
+        if(tookSpot)
+        {           
+            ocean[r][c+1] = ocean[r][c];
+            ocean[r][c] = EMPTYSPACE;
+            flags[r][c+1] = true;   //sets this flag to true so it cannot be repeated
+        }
         return canMove;
     }
     
     public static boolean moveDown(char[][] ocean, int r, int c)
     {
-        boolean canMove = false;
-        
-        System.out.println("Moved down");
-        if(r+1 < rows)
+        boolean canMove = false;    //if it can move and is not obstructed
+        boolean tookSpot = false;
+        //System.out.println("Moved down" + ocean[r][c]);
+        if(r+1<rows)
         {
             if(ocean[r+1][c] == EMPTYSPACE)
-            {
-                ocean[r+1][c] = ocean[r][c];
-                ocean[r][c] = EMPTYSPACE;
+            {                
                 canMove = true;
-                flags[r+1][c] = true;    //sets this flag to true so it cannot be repeated
+                tookSpot = true;
             }
             else
             {
-                //System.out.println("obstuction");
+                tookSpot = interact(ocean,r,c,r+1,c);       //if it can take its spot or not
+                canMove = true;                             //it can move so it will not try another interaction
             }
         }
-        else
+        else  //if it tried to move off edge of ocean
         {
             //System.out.println("tried to move off");
         }
         
+        //If something moved to that spot it will mark it done
+        //System.out.println(tookSpot + "" + ocean[r][c]);
+        if(tookSpot)
+        {           
+            ocean[r+1][c] = ocean[r][c];
+            ocean[r][c] = EMPTYSPACE;
+            flags[r+1][c] = true;   //sets this flag to true so it cannot be repeated
+        }
         return canMove;
     }
     
     public static boolean moveLeft(char[][] ocean, int r, int c)
     {
-        boolean canMove = false;
-        
-        System.out.println("Moved Left");
-        if(c-1 >=0)
+        boolean canMove = false;    //if it can move and is not obstructed
+        boolean tookSpot = false;
+        //System.out.println("Moved left" + ocean[r][c]);
+        if(c-1>=0)
         {
             if(ocean[r][c-1] == EMPTYSPACE)
-            {
-                ocean[r][c-1] = ocean[r][c];
-                ocean[r][c] = EMPTYSPACE;
+            {                
                 canMove = true;
-                flags[r][c-1] = true;    //sets this flag to true so it cannot be repeated
+                tookSpot = true;
             }
             else
             {
-                //System.out.println("obstuction");
+                tookSpot = interact(ocean,r,c,r,c-1);       //if it can take its spot or not
+                canMove = true;                             //it can move so it will not try another interaction
             }
         }
-        else
+        else  //if it tried to move off edge of ocean
         {
             //System.out.println("tried to move off");
         }
         
+        //If something moved to that spot it will mark it done
+        //System.out.println(tookSpot + "" + ocean[r][c]);
+        if(tookSpot)
+        {           
+            ocean[r][c-1] = ocean[r][c];
+            ocean[r][c] = EMPTYSPACE;
+            flags[r][c-1] = true;   //sets this flag to true so it cannot be repeated
+        }
         return canMove;
     }
     
@@ -1381,7 +1650,6 @@ public class OceanSim
         boolean canMove = false;   //find out if object can move or not  //possibly use later to log info about ocean if user chooses, but no use as of yet
         
         moveSpot = r1.nextInt(4);    //random number 0-3
-        moveSpot = 0;               //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         if(moveSpot == 0)   //Up
         {
@@ -1490,7 +1758,7 @@ public class OceanSim
         }
         else if(obj == 'I')
         {
-            if(chance < 500)   //5% chance!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if(chance < 5)    //5% chance
             {
                 willMove = true;
             }
@@ -1511,7 +1779,7 @@ public class OceanSim
         }
         else if(obj == 'K')
         {
-            if(chance < 85)    //85 chance
+            if(chance < 85)    //85% chance
             {
                 willMove = true;
             }
@@ -1564,7 +1832,7 @@ public class OceanSim
                         if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'R'))  //Rocks cant die so it wont even go in the method
                         {                           
                             //Method for dying
-                            //ocean[i][j] = deathChance(ocean[i][j]);                                       
+                            ocean[i][j] = deathChance(ocean[i][j]);                                       
                         }
                         
                         //Here again because deathChance could produce an emptySpace character within its own loop
