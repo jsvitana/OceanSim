@@ -11,6 +11,7 @@ public class OceanSim
     public static Random r1;
     
     public static final char EMPTYSPACE = '^';
+    public static final int BREEDCHANCE = 50;
     public static int rows = 0;
     public static int cols = 0;
     public static int amountOfFreeSpace = 0;  //The amount of free spaces the board has
@@ -105,9 +106,8 @@ public class OceanSim
                 ocean[i][j] = EMPTYSPACE;
             }
         }
-        
-        //sets 10% of grid to a random location         
-        for(int j = 0;j<count;j++) 
+                
+        for(int j = 0;j<count;j++)     //Randomizes world
         {
             randoNum = r1.nextInt(10);
             x = r1.nextInt(rows);
@@ -644,7 +644,7 @@ public class OceanSim
     
     /////////////////////////////////////////-- START OF TIME ADVANCE --//////////////////////////////////////////////////////////////////////////////
     
-    public static char deathChance(char obj)
+    public static char deathChance(char[][] ocean, char obj, int r, int c)
     {
         int chance = 0;   //chance for if the object will die
         
@@ -684,10 +684,18 @@ public class OceanSim
             {
                 obj = EMPTYSPACE;
             }
+            else if (chance >499)
+            {
+                breed(ocean,obj,r,c);
+            }
+            else
+            {
+                //Nothing happens
+            }
         }
         else if(obj == 'K')
         {
-            if(chance < 1)    //0.1 chance
+            if(chance < 50)    //5% chance
             {
                 obj = EMPTYSPACE;
             }
@@ -721,6 +729,47 @@ public class OceanSim
         return obj;
     }
     
+    public static void breed(char[][] ocean, char obj, int r, int c)
+    {
+        if(r-1>=0)
+        {
+            if(ocean[r-1][c] == EMPTYSPACE)
+            {     
+                ocean[r-1][c] = obj;
+                flags[r-1][c] = true;
+                return;
+            }
+        }
+        if(c+1<cols)
+        {
+            if(ocean[r][c+1] == EMPTYSPACE)
+            {     
+                ocean[r][c+1] = obj;
+                flags[r][c+1] = true;
+                return;
+            }
+        }
+        if(r+1<rows)
+        {
+           if(ocean[r+1][c] == EMPTYSPACE)
+            {    
+                ocean[r+1][c] = obj;
+                flags[r+1][c] = true;
+                return;
+            } 
+        }
+        if(c-1>=0)
+        {
+            if(ocean[r][c-1] == EMPTYSPACE)
+            {   
+                ocean[r][c-1] = obj;
+                flags[r][c-1] = true;
+                return;
+            }
+        }
+
+    }
+    
     public static boolean fishInteraction(char[][] ocean, char obj, int currentRow, int currentCol, int intRow, int intCol)
     {
         boolean tookSpot = false;   //if something dies 
@@ -731,7 +780,10 @@ public class OceanSim
         
         if(obj == 'F')
         {
-            //Breed here
+            if(intChance<50)
+            {
+                breed(ocean,obj,intRow,intCol);
+            }
         }
         else if(obj == 'S')
         {
@@ -832,7 +884,10 @@ public class OceanSim
         }
         else if(obj == 'S')
         {
-            //breed here
+            if(intChance<50)
+            {
+                breed(ocean,obj,intRow,intCol);
+            }
         }
         else if(obj == 'I')
         {
@@ -915,7 +970,7 @@ public class OceanSim
             }
             else if(intChance < 25)
             {
-                //iceburg breed   25% chance so pass up 25 into the breed method when making it
+                breed(ocean,obj,intRow,intCol);
             }
         }
         else if(obj == 'B')
@@ -956,7 +1011,15 @@ public class OceanSim
         }
         else if(obj == 'S')
         {
-            //breed here
+            if(intChance>89)
+            {
+                ocean[currentRow][currentCol] = EMPTYSPACE;
+            }
+            if(intChance < 15)
+            {
+                ocean[intRow][intCol] = EMPTYSPACE;
+                tookSpot = true;
+            }
         }
         else if(obj == 'I')
         {
@@ -1042,7 +1105,7 @@ public class OceanSim
             }
             if(intChance<25)
             {
-                //New iceburg forms if there is room for it, so iceburg breed
+                breed(ocean,obj,intRow,intCol);
             }
         }
         else if (obj == 'B')
@@ -1114,10 +1177,6 @@ public class OceanSim
                 tookSpot = true;
             }
         }
-        else if (obj == 'J')
-        {
-            //breed here
-        }
         else if (obj == 'K')
         {
             if(intChance <98)
@@ -1137,7 +1196,7 @@ public class OceanSim
         }
         else
         {
-            if(obj != 'A')
+            if((obj != 'A') && (obj != 'J'))
             {
                 System.out.println(obj + " tried to move on the the jelly!!");
             }
@@ -1198,7 +1257,10 @@ public class OceanSim
         }
         else if (obj == 'K')
         {
-            //Breed here
+            if(intChance<10)
+            {
+                breed(ocean,obj,intRow,intCol);
+            }
         }
         else if (obj == 'L')
         {
@@ -1271,7 +1333,10 @@ public class OceanSim
         }
         else if (obj == 'L')
         {
-            //breed here
+            if(intChance<50)
+            {
+                breed(ocean,obj,intRow,intCol);
+            }
         }
         else
         {
@@ -1347,7 +1412,10 @@ public class OceanSim
         }
         else if (obj == 'A')
         {
-            //breed here
+            if(intChance<50)
+            {
+                breed(ocean,obj,intRow,intCol);
+            }
         }
         else
         {
@@ -1832,7 +1900,7 @@ public class OceanSim
                         if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'R'))  //Rocks cant die so it wont even go in the method
                         {                           
                             //Method for dying
-                            ocean[i][j] = deathChance(ocean[i][j]);                                       
+                            ocean[i][j] = deathChance(ocean, ocean[i][j], i, j);                                   
                         }
                         
                         //Here again because deathChance could produce an emptySpace character within its own loop
@@ -1935,7 +2003,7 @@ public class OceanSim
                               +"[4] Save World\n"
                               +"[5] Load World\n"
                               +"[6] Exit");
-            System.out.println("Free space" + amountOfFreeSpace);
+            System.out.println("Free space " + amountOfFreeSpace);
             choice = SavitchIn.readLineInt();
             switch(choice)
             {
