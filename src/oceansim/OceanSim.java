@@ -11,6 +11,8 @@ public class OceanSim
     public static Random r1;
     
     public static final char EMPTYSPACE = '^';
+    public static final char DEADRIG = '*';
+    public static final char SPILL = '!';
     public static final int BREEDCHANCE = 50;
     public static int rows = 0;
     public static int cols = 0;
@@ -107,7 +109,7 @@ public class OceanSim
             }
         }
                 
-        for(int j = 0;j<count;j++)     //Randomizes world
+        /*for(int j = 0;j<count;j++)     //Randomizes world
         {
             randoNum = r1.nextInt(10);
             x = r1.nextInt(rows);
@@ -157,7 +159,7 @@ public class OceanSim
             {
                 ocean[x][y] = 'O';
             }
-        }
+        }*/
     }
     
     public static char getObject()
@@ -659,7 +661,7 @@ public class OceanSim
         }
         else if(obj == 'S')   
         {
-            if(chance < 50)    //5% chance
+            if(chance < 100)    //10% chance
             {
                 obj = EMPTYSPACE;
             }
@@ -680,11 +682,11 @@ public class OceanSim
         }
         else if(obj == 'J')
         {
-            if(chance < 50)   //5% chance
+            if(chance < 100)   //10% chance
             {
                 obj = EMPTYSPACE;
             }
-            else if (chance >499)
+            else if (chance >939)
             {
                 breed(ocean,obj,r,c);
             }
@@ -1412,7 +1414,7 @@ public class OceanSim
         }
         else if (obj == 'A')
         {
-            if(intChance<50)
+            if(intChance<35)
             {
                 breed(ocean,obj,intRow,intCol);
             }
@@ -1474,9 +1476,9 @@ public class OceanSim
         {
             if(intChance<98)
             {
-                //System.out.println("oil Rig Attacked!");
-                ocean[intRow][intCol] = EMPTYSPACE;
-                tookSpot = true;
+                System.out.println("oil Rig Attacked! Kraken dies too! Oil Spill!");
+                ocean[intRow][intCol] = DEADRIG;
+                ocean[currentRow][currentCol] = EMPTYSPACE;             
             }
         }
         else
@@ -1718,6 +1720,7 @@ public class OceanSim
         boolean canMove = false;   //find out if object can move or not  //possibly use later to log info about ocean if user chooses, but no use as of yet
         
         moveSpot = r1.nextInt(4);    //random number 0-3
+        moveSpot = 0; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         if(moveSpot == 0)   //Up
         {
@@ -1879,6 +1882,64 @@ public class OceanSim
         }
     }
     
+    public static void oilSpill(char[][] ocean)
+    {
+        flags = new boolean[rows][cols];    //to make it know when to stop have it count how many spots are left until 5 spots out once it reaches that spot erase it all
+        
+        for(int i =0;i<rows;i++)
+        {
+            for(int j = 0;j<cols;j++)
+            {
+                if((ocean[i][j] == DEADRIG) || (ocean[i][j] == SPILL))
+                {                 
+                    if(flags[i][j] != true)
+                    {
+                        if(i-1>0)                       //above
+                        {
+                            ocean[i-1][j] = SPILL;
+                            flags[i-1][j] = true;
+                        }
+                        if((i-1>0) && (j+1 < cols))     //above to right
+                        {
+                            ocean[i-1][j+1] = SPILL;
+                            flags[i-1][j+1] = true;
+                        }
+                        if(j+1 < cols)
+                        {
+                            ocean[i][j+1] = SPILL;       //right
+                            flags[i][j+1] = true;
+                        }
+                        if((i+1 < rows) && (j+1 < cols)) //down to right
+                        {
+                            ocean[i+1][j+1] = SPILL;
+                            flags[i+1][j+1] = true;
+                        }
+                        if(i+1 < rows)                  //down
+                        {
+                            ocean[i+1][j] = SPILL;
+                            flags[i+1][j] = true;
+                        }
+                        if((i+1< rows) && (j-1>0))
+                        {
+                            ocean[i+1][j-1] = SPILL;    //down to left
+                            flags[i+1][j-1] = true;
+                        }
+                        if(j-1>0)
+                        {
+                            ocean[i][j-1] = SPILL;     //left
+                            flags[1][j-1] = true;
+                        }
+                        if((i-1 > 0) && (j-1 > 0))
+                        {
+                            ocean[i-1][j-1] = SPILL;
+                            flags[i-1][j-1] = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     public static void timeAdvance(char[][] ocean)
     {
         int amountOfTicks = 0;
@@ -1897,22 +1958,23 @@ public class OceanSim
                     if(flags[i][j] != true)     //if a spot has already had a turn it cannot go again this will prevent that
                     {
                         //look for an object in the ocean, if it finds one modify it
-                        if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'R'))  //Rocks cant die so it wont even go in the method
+                        if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'R') && (ocean[i][j] != DEADRIG) && (ocean[i][j] != SPILL))  //Rocks cant die so it wont even go in the method
                         {                           
                             //Method for dying
                             ocean[i][j] = deathChance(ocean, ocean[i][j], i, j);                                   
                         }
                         
                         //Here again because deathChance could produce an emptySpace character within its own loop
-                        if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'O') && (ocean[i][j] != 'R'))  //Rocks and oil rigs cannot move
+                        if((ocean[i][j] != EMPTYSPACE) && (ocean[i][j] != 'O') && (ocean[i][j] != 'R') && (ocean[i][j] != DEADRIG) && (ocean[i][j] != SPILL))  //Rocks and oil rigs cannot move
                         {
                             //Method for moving                       
                             moveChance(ocean, ocean[i][j], i, j);
-                        }
+                        }                                             
                         flags[i][j] = true;    //This spot has made its turn
                     }
                 }
             }
+            oilSpill(ocean);
         }
         printOcean(ocean);
     }
